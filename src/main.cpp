@@ -5,15 +5,16 @@
 
 vehicle myCar;
 Servo myServo;
+ultrasonic myUltrasonic;
+int UT_distance=0;
 
 #define leftLED 2
 #define rightLED 12
 #define antiClockwise Contrarotate
 #define buzzer 33
 #define servopin 25
-// Compatibility aliases for movement enum names (some headers use different naming)
-#define Move_left MoveLeft
-#define Move_right MoveRight
+#define sonarmoter 25
+
 
 void forward()
 {
@@ -51,7 +52,7 @@ void strafeLeft()
 
 void strafeRight()
 {
-  myCar.Move(MoveRight, 255);
+  myCar.Move(Move_Right, 255);
   delay(1000);
 }
 
@@ -61,6 +62,8 @@ void setup()
 pinMode(leftLED, OUTPUT);
 pinMode(rightLED, OUTPUT);
 pinMode(buzzer, OUTPUT);
+pinMode(sonarmoter, OUTPUT);
+myUltrasonic.Init(13, 14);
 myCar.Init();
 myServo.attach(servopin);
 myServo.write(0);
@@ -71,16 +74,17 @@ myServo.write(0);
 void loop()
 {
 
-forward();
+  UT_distance=myUltrasonic.Ranging();
+  if(UT_distance<50)
+  {
+    rotateLeft();
+  }
+  else
+  {
+    forward();
+  }
+  delay(1000);
 
-backward();
 
-rotateLeft();
-
-rotateRight();
-
-strafeLeft();
-
-strafeRight();
     
 }
