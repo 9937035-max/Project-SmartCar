@@ -12,6 +12,33 @@ Servo myServo;
 #define buzzer 33
 #define servopin 25
 
+void forward()
+{
+  myCar.Move(Forward, 255);
+  delay(1000);
+}
+
+void backward()
+{
+  myCar.Move(Backward, 255);
+  delay(1000);
+}
+
+void rotateLeft()
+{
+  myCar.Move(antiClockwise, 255);
+    digitalWrite(leftLED, HIGH);
+  delay(500);
+  digitalWrite(leftLED, LOW);
+}
+
+void rotateRight()
+{
+  myCar.Move(Clockwise, 255);
+  digitalWrite(rightLED, HIGH);
+  delay(500);
+    digitalWrite(rightLED, LOW);
+}
 
 
 void setup()
@@ -30,16 +57,12 @@ myServo.write(0);
 void loop()
 {
 
+forward();
 
-    digitalWrite(leftLED, HIGH);
-    digitalWrite(rightLED, LOW);
-    
-    delay(1000);
+backward();
 
-    digitalWrite(leftLED, LOW);
-    digitalWrite(rightLED, HIGH);
-    
-    delay(1000);
+rotateLeft();
 
+rotateRight();
     
 }
