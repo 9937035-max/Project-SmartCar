@@ -11,6 +11,9 @@ Servo myServo;
 #define antiClockwise Contrarotate
 #define buzzer 33
 #define servopin 25
+// Compatibility aliases for movement enum names (some headers use different naming)
+#define Move_left MoveLeft
+#define Move_right MoveRight
 
 void forward()
 {
@@ -28,7 +31,7 @@ void rotateLeft()
 {
   myCar.Move(antiClockwise, 255);
     digitalWrite(leftLED, HIGH);
-  delay(500);
+  delay(1000);
   digitalWrite(leftLED, LOW);
 }
 
@@ -36,10 +39,21 @@ void rotateRight()
 {
   myCar.Move(Clockwise, 255);
   digitalWrite(rightLED, HIGH);
-  delay(500);
+  delay(1000);
     digitalWrite(rightLED, LOW);
 }
 
+void strafeLeft()
+{
+  myCar.Move(Move_Left, 255);
+  delay(1000);
+}
+
+void strafeRight()
+{
+  myCar.Move(MoveRight, 255);
+  delay(1000);
+}
 
 void setup()
 {
@@ -64,5 +78,9 @@ backward();
 rotateLeft();
 
 rotateRight();
+
+strafeLeft();
+
+strafeRight();
     
 }
