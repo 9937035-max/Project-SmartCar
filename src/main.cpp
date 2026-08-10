@@ -8,6 +8,12 @@ Servo myServo;
 ultrasonic myUltrasonic;
 int UT_distance=0;
 int middleDistance=90;
+Servo myServo;
+
+int myservo_Pin=25;
+int leftDistance=0;
+int middleDistance=0;
+int rightDistance1=0;
 
 #define leftLED 2
 #define rightLED 12
@@ -83,18 +89,46 @@ myServo.write(0);
 void loop()
 {
   middleDistance=myUltrasonic.Ranging();
-  UT_distance=myUltrasonic.Ranging();
-  if(UT_distance<50)
-  {
-    rotateLeft();
-    buzzersound();
+  myServo.write(90);
+  if(middleDistance<25){
+    myCar.Move(Stop, 0);
+    myServo.write(0);
+    for(int angle=90; angle>=0; angle--){
+      myServo.write(angle);
+      delay(10);
+    }
+   delay(500);
+   rightDistance1=myUltrasonic.Ranging();
+   for(int angle=0; angle<=180; angle++){
+      myServo.write(angle);
+      delay(10);
+    }
+    delay(500);
+    leftDistance=myUltrasonic.Ranging();
+ if(rightDistance1<20&&leftDistance<20){
+  myCar.Move(Backward, 255);
+  delay(500);
+  myCar.Move(Move_Left, 255);
+  delay(1000);
+ }
+  else if(rightDistance1>leftDistance){
+    myCar.Move(Clockwise, 255);
+    delay(1000);
   }
-  else
-  {
-    
+  else if(leftDistance>rightDistance1){
+    myCar.Move(antiClockwise, 255);
+    delay(1000);
+  }
+  else{
+    myCar.Move(Backward, 255);
+    delay(500);
+    myCar.Move(Move_Left, 255);
+    delay(1000);
+  }
+  }
+  else{
     forward();
   }
-  delay(1000);
 
 
     
