@@ -7,6 +7,7 @@ vehicle myCar;
 Servo myServo;
 ultrasonic myUltrasonic;
 int UT_distance=0;
+int middleDistance=90;
 
 #define leftLED 2
 #define rightLED 12
@@ -15,6 +16,14 @@ int UT_distance=0;
 #define servopin 25
 #define sonarmoter 25
 
+void buzzersound()
+{
+  digitalWrite(buzzer, 255);
+  delay(1000);
+  digitalWrite(buzzer, 000);
+  delay(1000);
+  
+}
 
 void forward()
 {
@@ -73,14 +82,16 @@ myServo.write(0);
 
 void loop()
 {
-
+  middleDistance=myUltrasonic.Ranging();
   UT_distance=myUltrasonic.Ranging();
   if(UT_distance<50)
   {
     rotateLeft();
+    buzzersound();
   }
   else
   {
+    
     forward();
   }
   delay(1000);
