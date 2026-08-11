@@ -25,6 +25,10 @@ int rightDistance=0;
 #define Speed 155
 
 IRrecv myIRrev(IRpin);
+unsigned long lastCommandTime; // Record the time of the last received command
+const unsigned long commandTimeout = 100; // Set the timeout period (milliseconds)
+uint32_t last_decode = 0; // Variable to store the previously decoded raw data
+uint32_t current_decode = 0;// Variable to store the currently decoded raw data
 
 void forward()
 {
@@ -75,18 +79,18 @@ myIRrev.enableIRIn();
 }
 void loop()
 {
-  myServo.write(100);
-  if (myUltrasonic.Ranging() < 100)
-  {
-   rotateRight();
-  }
-  else
-  {
-    forward();
-  }
+ myServo.write(100);
+  //if (myUltrasonic.Ranging() < 100)
+ // {
+ //  rotateRight();
+ // }
+ // else
+//  {
+   // forward();
+ // }
   delay(100);
   
-  if (myIRrev.decode()) { 
+ if (myIRrev.decode()) { 
 lastCommandTime = millis(); 
 current_decode = myIRrev.decodedIRData.decodedRawData;
 if (myIRrev.decodedIRData.flags) { 
@@ -108,6 +112,13 @@ case 0xE916FF00: myCar.Move(Move_Left, Speed); break;
 // Press button "1" to move left
 case 0xF20DFF00: myCar.Move(Move_Right, Speed); break;
 // Press button "3" to move right
+}
+myIRrev.resume(); // Wait for the next IR signal
+last_decode = current_decode;
+// Update the stored previous decodedRawData
+if (millis() - lastCommandTime > commandTimeout) {
+myCar.Move(Stop, 0);
+// If no new IR signal within 100 milliseconds, stop the smart car
 }
 }
 }
