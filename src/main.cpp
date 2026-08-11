@@ -22,6 +22,7 @@ int rightDistance=0;
 #define antiClockwise Contrarotate
 #define servopin 25
 #define sonarmoter 25
+#define Speed 155
 
 IRrecv myIRrev(IRpin);
 
@@ -84,9 +85,29 @@ void loop()
     forward();
   }
   delay(100);
-  if (myIRrev.decode())
-  {
-    Serial.println(myIRrev.decodedIRData.decodedRawData, HEX);
-    myIRrev.resume();
-  }
+  
+  if (myIRrev.decode()) { 
+lastCommandTime = millis(); 
+current_decode = myIRrev.decodedIRData.decodedRawData;
+if (myIRrev.decodedIRData.flags) { 
+current_decode = last_decode;
+
+}
+Serial.print(current_decode, HEX);
+Serial.println("");
+switch (current_decode) {
+case 0xB946FF00: myCar.Move(Forward, Speed); break;
+// Press "up" button to move forward
+case 0xEA15FF00: myCar.Move(Backward, Speed); break;
+// Press "down" button to move backward
+case 0xBB44FF00: myCar.Move(Contrarotate, Speed); break;
+// Press "left" button to turn left
+case 0xBC43FF00: myCar.Move(Clockwise, Speed); break;
+// Press "right" button to turn right
+case 0xE916FF00: myCar.Move(Move_Left, Speed); break;
+// Press button "1" to move left
+case 0xF20DFF00: myCar.Move(Move_Right, Speed); break;
+// Press button "3" to move right
+}
+}
 }
