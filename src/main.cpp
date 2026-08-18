@@ -79,7 +79,7 @@ myIRrev.enableIRIn();
 }
 void loop()
 {
- myServo.write(100);
+ myServo.write(45);
   //if (myUltrasonic.Ranging() < 100)
  // {
  //  rotateRight();
@@ -112,13 +112,22 @@ case 0xE916FF00: myCar.Move(Move_Left, Speed); break;
 // Press button "1" to move left
 case 0xF20DFF00: myCar.Move(Move_Right, Speed); break;
 // Press button "3" to move right
+case 0xBF40FF00: myCar.Move(Stop, 0); break;
+// Press button "OK" to stop
+case 0xB54AFF00:  if 
+(myUltrasonic.Ranging() < 100)
+ {
+ rotateRight();
+ }
+ else
+ {
+ forward();
+ } break;
+// Press button "#" starts roming mode
 }
 myIRrev.resume(); // Wait for the next IR signal
 last_decode = current_decode;
 // Update the stored previous decodedRawData
-if (millis() - lastCommandTime > commandTimeout) {
-myCar.Move(Stop, 0);
-// If no new IR signal within 100 milliseconds, stop the smart car
 }
 }
-}
+
