@@ -16,13 +16,14 @@ int myservo_Pin=25;
 int leftDistance=0;
 int middleDistance=0;
 int rightDistance=0;
+int Speed=155
 #define IRpin 4
 #define leftLED 2
 #define rightLED 12
 #define antiClockwise Contrarotate
 #define servopin 25
 #define sonarmoter 25
-#define Speed 155
+
 
 IRrecv myIRrev(IRpin);
 unsigned long lastCommandTime; // Record the time of the last received command
@@ -64,6 +65,23 @@ void strafeRight()
   myCar.Move(Move_Right, 155);
 }
 
+void topSpeed()
+{
+speed=255
+}
+
+void roamingMode()
+{
+  if (myUltrasonic.Ranging() < 100)
+  {
+  rotateRight();
+  }
+  else
+  {
+   forward();
+}
+}
+
 void setup()
 {
  Serial.begin(115000);
@@ -77,6 +95,9 @@ myServo.attach(servopin);
 myServo.write(0);
 myIRrev.enableIRIn();
 }
+
+
+
 void loop()
 {
  myServo.write(45);
@@ -114,20 +135,15 @@ case 0xF20DFF00: myCar.Move(Move_Right, Speed); break;
 // Press button "3" to move right
 case 0xBF40FF00: myCar.Move(Stop, 0); break;
 // Press button "OK" to stop
-case 0xB54AFF00:  if 
-(myUltrasonic.Ranging() < 100)
- {
- rotateRight();
- }
- else
- {
- forward();
- } break;
+case 0xB54AFF00: roamingMode(); 
 // Press button "#" starts roming mode
+case 0xAD52FF00: topSpeed(); break;
+// Press button "0" make the smart car quicker (isnt undo able)
 }
 myIRrev.resume(); // Wait for the next IR signal
-last_decode = current_decode;
-// Update the stored previous decodedRawData
+ }
+ if (millis() - lastCommandTime > commandTimeout) {
+myCar.Move(Stop, 0);
+// If no new IR signal within 100 milliseconds, stop the smart car
 }
 }
-
