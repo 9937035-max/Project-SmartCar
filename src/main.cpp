@@ -25,7 +25,7 @@ int Speed=155
 #define sonarmoter 25
 
 
-;IRremote myIRrev(IRpin);
+;IRrecv myIRrev(IRpin);
 unsigned long lastCommandTime; // Record the time of the last received command
 const unsigned long commandTimeout = 100; // Set the timeout period (milliseconds)
 uint32_t last_decode = 0; // Variable to store the previously decoded raw data
@@ -116,7 +116,8 @@ lastCommandTime = millis();
 current_decode = myIRrev.decodedIRData.decodedRawData;
 if (myIRrev.decodedIRData.flags) { 
 current_decode = last_decode;
-
+}
+ }
 }
 Serial.print(current_decode, HEX);
 Serial.println("");
