@@ -67,7 +67,7 @@ void strafeRight()
 
 void topSpeed()
 {
-speed=255
+Speed=255
 }
 
 void roamingMode()
