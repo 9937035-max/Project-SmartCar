@@ -25,7 +25,7 @@ int Speed=155
 #define sonarmoter 25
 
 
-IRrev myIRrev(IRpin);
+;IRremote myIRrev(IRpin);
 unsigned long lastCommandTime; // Record the time of the last received command
 const unsigned long commandTimeout = 100; // Set the timeout period (milliseconds)
 uint32_t last_decode = 0; // Variable to store the previously decoded raw data
