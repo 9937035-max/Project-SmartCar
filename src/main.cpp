@@ -116,9 +116,7 @@ lastCommandTime = millis();
 current_decode = myIRrev.decodedIRData.decodedRawData;
 if (myIRrev.decodedIRData.flags) { 
 current_decode = last_decode;
-}
- }
-}
+
 Serial.print(current_decode, HEX);
 Serial.println("");
 switch (current_decode) {
@@ -148,3 +146,5 @@ myCar.Move(Stop, 0);
 // If no new IR signal within 100 milliseconds, stop the smart car
 }
 }
+}
+
