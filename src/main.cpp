@@ -93,15 +93,15 @@ myIRrev.enableIRIn();
 
 void loop()
 {
- myServo.write(45);
-  //if (myUltrasonic.Ranging() < 100)
- // {
- //  rotateRight();
- // }
- // else
-//  {
-   // forward();
- // }
+ myServo.write(60);
+if (myUltrasonic.Ranging() < 100)
+{
+  rotateRight();
+ }
+  else
+{
+  forward();
+  }
   delay(100);
   
  if (myIRrev.decode()) { 
