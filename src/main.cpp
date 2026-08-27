@@ -79,7 +79,7 @@ myIRrev.enableIRIn();
 }
 void loop()
 {
- myServo.write(45);
+ myServo.write(30);
   //if (myUltrasonic.Ranging() < 100)
  // {
  //  rotateRight();
