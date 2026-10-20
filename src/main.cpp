@@ -136,14 +136,7 @@ void setup()
 
 void loop()
 {
-  switch (lastCommand)
-  {
-  case 2:
-    manualMovment();
 
-  case 1:
-    roaming();
-  }
 
   if (myIRrecv.decode())
   {                             // Check if an IR signal is received
@@ -163,9 +156,17 @@ void loop()
       // Press "*" button to move change to roming
 
       case 0xB54AFF00:
-      lastCommand = 2;
+      lastCommand = 0;
       // Press "*" button to move change to roming
     }
+  }
+    switch (lastCommand)
+  {
+  case 1:
+    manualMovment();
+
+  case 0:
+    roaming();
   }
 }
 
