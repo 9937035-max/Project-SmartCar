@@ -160,12 +160,10 @@ void loop()
     {
     case 0xBD42FF00:
       lastCommand = 1;
-      break;
       // Press "*" button to move change to roming
 
       case 0xB54AFF00:
       lastCommand = 2;
-      break;
       // Press "*" button to move change to roming
     }
   }
